@@ -7,5 +7,6 @@ class Routes:
     ABOUT_PATH = "/about"
     PRICING_PATH = "/pricing"
     CONTACT_PATH = "/contact"
+    CONTACT_ENTRIES_PATH = "/contact/entries"
     LOGIN_PATH = "/login"
     SIGNUP_PATH = "/signup"

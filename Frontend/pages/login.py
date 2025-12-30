@@ -7,9 +7,7 @@ from ..navigation import Routes
 def login_page() -> rx.Component:
     my_child = rx.vstack(
         rx.heading("Login", size="6"),
-        rx.text(
-            "This is our login",
-        ),
+        rx.text("This is our login"),
         spacing="5",
         justify="start",
         align="center",

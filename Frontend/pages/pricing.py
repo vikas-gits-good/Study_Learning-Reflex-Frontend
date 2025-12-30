@@ -7,9 +7,7 @@ from ..navigation import Routes
 def pricing_page() -> rx.Component:
     my_child = rx.vstack(
         rx.heading("Pricing", size="6"),
-        rx.text(
-            "This is our pricing information",
-        ),
+        rx.text("This is our pricing information"),
         spacing="5",
         justify="start",
         align="center",

@@ -1,13 +1,15 @@
 import asyncio
 import reflex as rx
 
+from typing import Sequence
+from sqlmodel import select
 from .model import ContactModel
 
 
 class ContactState(rx.State):
     form_data: dict = {}
+    entries: Sequence[ContactModel] = []
     form_submit: bool = False
-    time_left: int = 5
 
     @rx.var
     def thanks(self) -> str:
@@ -34,3 +36,10 @@ class ContactState(rx.State):
         await asyncio.sleep(2)
         self.form_submit = False
         yield
+
+    def list_entries(self):
+        with rx.session() as sesn:
+            entries = sesn.exec(
+                select(ContactModel),
+            ).all()
+            self.entries = entries
