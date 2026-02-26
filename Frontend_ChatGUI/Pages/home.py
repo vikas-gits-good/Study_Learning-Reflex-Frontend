@@ -1,6 +1,6 @@
 import reflex as rx
 
-from Frontend import GUI
+from Frontend_ChatGUI import GUI
 from rxconfig import config
 
 

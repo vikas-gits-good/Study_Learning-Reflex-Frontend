@@ -1,0 +1,57 @@
+import reflex as rx
+
+from Frontend_ChatGUI import GUI
+
+from .form import chat_form
+from .state import ChatMessage, ChatState, MessageStyle
+
+
+def message_box(chat_message: ChatMessage):
+    return rx.box(
+        rx.box(
+            rx.markdown(
+                chat_message.message,
+                background_color=rx.cond(
+                    chat_message.is_bot,
+                    rx.color("mauve", 4),
+                    rx.color("blue", 4),
+                ),
+                color=rx.cond(
+                    chat_message.is_bot,
+                    rx.color("mauve", 12),
+                    rx.color("blue", 12),
+                ),
+                **MessageStyle().model_dump(),
+            ),
+            text_align=rx.cond(
+                chat_message.is_bot,
+                "left",
+                "right",
+            ),
+        ),
+        width="100%",
+    )
+
+
+def chat_page() -> rx.Component:
+    return GUI.base_layout(
+        rx.vstack(
+            rx.heading(
+                "Welcome to Reflex Chat!",
+                size="9",
+                id="chat-heading",
+            ),
+            rx.box(
+                rx.foreach(
+                    ChatState.MESSAGES,
+                    message_box,
+                ),
+                width="100%",
+            ),
+            chat_form(),
+            margin="3rem auto",
+            spacing="5",
+            justify="center",
+            min_height="85vh",
+        )
+    )

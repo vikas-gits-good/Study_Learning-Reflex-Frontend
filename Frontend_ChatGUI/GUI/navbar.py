@@ -1,6 +1,6 @@
 import reflex as rx
 
-from Frontend.Navigation import NavState, Routes
+from Frontend_ChatGUI.Navigation import NavState, Routes
 
 
 def navbar_link(text: str, url: str) -> rx.Component:
