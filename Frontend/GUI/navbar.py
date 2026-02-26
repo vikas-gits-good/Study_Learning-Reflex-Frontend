@@ -1,6 +1,6 @@
 import reflex as rx
 
-from Frontend.Navigation import Routes
+from Frontend.Navigation import NavState, Routes
 
 
 def navbar_link(text: str, url: str) -> rx.Component:
@@ -69,8 +69,8 @@ def base_navbar() -> rx.Component:
                 rx.menu.root(
                     rx.menu.trigger(rx.icon("menu", size=30)),
                     rx.menu.content(
-                        rx.menu.item("Home"),
-                        rx.menu.item("About"),
+                        rx.menu.item("Home", on_click=NavState.to_home()),
+                        rx.menu.item("About", on_click=NavState.to_about()),
                         # rx.menu.item("Pricing"),
                         # rx.menu.item("Contact"),
                     ),
