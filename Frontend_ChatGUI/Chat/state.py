@@ -1,6 +1,8 @@
 import reflex as rx
 from pydantic import BaseModel
 
+from Frontend_ChatGUI.models import Chat
+
 from .ai import llm_response
 
 
@@ -24,6 +26,11 @@ class ChatState(rx.State):
     @rx.var
     def user_form_submit(self) -> bool:
         return self.DID_SUBMT
+
+    def on_load(self):
+        with rx.session() as sesn:
+            results = sesn.exec(Chat.select()).all()
+            print(results)
 
     def handle_submit(self, form_data: dict = {}):
         user_message = form_data.get("HumanMessage", "")
