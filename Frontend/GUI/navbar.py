@@ -39,6 +39,7 @@ def base_navbar() -> rx.Component:
                 rx.hstack(
                     navbar_link("Home", Routes.HOME),
                     navbar_link("About", Routes.ABOUT),
+                    navbar_link("Chat", Routes.CHAT),
                     # navbar_link("Pricing", "/#"),
                     # navbar_link("Contact", "/#"),
                     justify="end",
@@ -71,6 +72,7 @@ def base_navbar() -> rx.Component:
                     rx.menu.content(
                         rx.menu.item("Home", on_click=NavState.to_home()),
                         rx.menu.item("About", on_click=NavState.to_about()),
+                        rx.menu.item("Chat", on_click=NavState.to_chat()),
                         # rx.menu.item("Pricing"),
                         # rx.menu.item("Contact"),
                     ),

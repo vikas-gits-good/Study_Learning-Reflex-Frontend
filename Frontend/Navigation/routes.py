@@ -5,3 +5,4 @@ from dataclasses import dataclass
 class Routes:
     HOME = "/"
     ABOUT = "/about"
+    CHAT = "/chat"

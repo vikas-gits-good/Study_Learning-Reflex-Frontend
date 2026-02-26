@@ -11,3 +11,7 @@ class NavState(rx.State):
     @staticmethod
     def to_about() -> rx.event.EventSpec:
         return rx.redirect(Routes.ABOUT)
+
+    @staticmethod
+    def to_chat() -> rx.event.EventSpec:
+        return rx.redirect(Routes.CHAT)
