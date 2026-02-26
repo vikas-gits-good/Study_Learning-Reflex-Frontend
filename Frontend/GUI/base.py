@@ -10,6 +10,8 @@ def base_layout(*args, **kwargs) -> rx.Component:
         rx.fragment(
             *args,
             **kwargs,
+            id="base-fragment",
         ),
         base_footer(),
+        id="base-container",
     )

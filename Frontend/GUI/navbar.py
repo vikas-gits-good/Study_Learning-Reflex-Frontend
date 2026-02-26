@@ -2,7 +2,16 @@ import reflex as rx
 
 
 def navbar_link(text: str, url: str) -> rx.Component:
-    return rx.link(rx.text(text, size="4", weight="medium"), href=url)
+    return rx.link(
+        rx.text(
+            text,
+            size="4",
+            weight="medium",
+            id="navbar-link-text",
+        ),
+        href=url,
+        id="navbar-link",
+    )
 
 
 def base_navbar() -> rx.Component:
@@ -15,8 +24,14 @@ def base_navbar() -> rx.Component:
                         width="2.25em",
                         height="auto",
                         border_radius="25%",
+                        id="navbar-logo",
                     ),
-                    rx.heading("Reflex GPT", size="7", weight="bold"),
+                    rx.heading(
+                        "Reflex GPT",
+                        size="7",
+                        weight="bold",
+                        id="navbar-heading",
+                    ),
                     align_items="center",
                 ),
                 rx.hstack(
@@ -35,9 +50,18 @@ def base_navbar() -> rx.Component:
             rx.hstack(
                 rx.hstack(
                     rx.image(
-                        src="/logo.jpg", width="2em", height="auto", border_radius="25%"
+                        src="/logo.jpg",
+                        width="2em",
+                        height="auto",
+                        border_radius="25%",
+                        id="navbar-logo",
                     ),
-                    rx.heading("Reflex GPT", size="6", weight="bold"),
+                    rx.heading(
+                        "Reflex GPT",
+                        size="6",
+                        weight="bold",
+                        id="navbar-heading",
+                    ),
                     align_items="center",
                 ),
                 rx.menu.root(

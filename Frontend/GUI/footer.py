@@ -2,7 +2,11 @@ import reflex as rx
 
 
 def footer_item(text: str, href: str) -> rx.Component:
-    return rx.link(rx.text(text, size="3"), href=href)
+    return rx.link(
+        rx.text(text, size="3"),
+        href=href,
+        id="footer-link",
+    )
 
 
 def footer_items_1() -> rx.Component:
@@ -16,6 +20,7 @@ def footer_items_1() -> rx.Component:
         spacing="4",
         text_align=["center", "center", "start"],
         flex_direction="column",
+        id="footer-column",
     )
 
 
@@ -30,11 +35,16 @@ def footer_items_2() -> rx.Component:
         spacing="4",
         text_align=["center", "center", "start"],
         flex_direction="column",
+        id="footer-column",
     )
 
 
 def social_link(icon: str, href: str) -> rx.Component:
-    return rx.link(rx.icon(icon), href=href)
+    return rx.link(
+        rx.icon(icon),
+        href=href,
+        id="footer-social-link",
+    )
 
 
 def socials() -> rx.Component:
@@ -46,6 +56,7 @@ def socials() -> rx.Component:
         spacing="3",
         justify="end",
         width="100%",
+        id="footer-social",
     )
 
 
@@ -60,15 +71,22 @@ def base_footer() -> rx.Component:
                             width="2.25em",
                             height="auto",
                             border_radius="25%",
+                            id="footer-logo",
                         ),
-                        rx.heading("Reflex", size="7", weight="bold"),
+                        rx.heading(
+                            "Reflex",
+                            size="7",
+                            weight="bold",
+                            id="footer-heading",
+                        ),
                         align_items="center",
                     ),
                     rx.text(
-                        "© 2024 Reflex, Inc",
+                        "© 2026 Reflex, Inc",
                         size="3",
                         white_space="nowrap",
                         weight="medium",
+                        id="footer-copyright",
                     ),
                     spacing="4",
                     align_items=["center", "center", "start"],
