@@ -43,7 +43,7 @@ def chat_page() -> rx.Component:
             ),
             rx.box(
                 rx.foreach(
-                    ChatState.MESSAGES,
+                    ChatState.CONVO_HIST,
                     message_box,
                 ),
                 width="100%",
