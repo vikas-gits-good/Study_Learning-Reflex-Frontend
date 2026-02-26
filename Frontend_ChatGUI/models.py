@@ -15,7 +15,7 @@ def get_tz_now() -> datetime:
     return datetime.now(tz)
 
 
-class Chat(rx.Model, table=True):
+class ChatModel(rx.Model, table=True):
     # ids: str
     # messages: list[str]
     title: str
@@ -36,3 +36,7 @@ class Chat(rx.Model, table=True):
         },
         nullable=False,
     )
+
+
+# class ChatMessageModel(rx.Model, table=True):
+#     pass
