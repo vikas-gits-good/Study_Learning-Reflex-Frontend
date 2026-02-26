@@ -7,7 +7,7 @@ from rxconfig import config
 def home() -> rx.Component:
     # Welcome Page (home)
     return GUI.base_layout(
-        rx.color_mode.button(position="top-right"),
+        rx.color_mode.button(position="bottom-right"),
         rx.vstack(
             rx.heading("Welcome to Reflex GPT!", size="9"),
             rx.text(
