@@ -2,8 +2,8 @@
 
 import reflex as rx
 
-from . import Pages
+from . import Navigation, Pages
 
 app = rx.App()
-app.add_page(Pages.home, route="/")
-app.add_page(Pages.about, route="/about")
+app.add_page(Pages.home, route=Navigation.Routes.HOME)
+app.add_page(Pages.about, route=Navigation.Routes.ABOUT)

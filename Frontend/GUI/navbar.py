@@ -1,5 +1,7 @@
 import reflex as rx
 
+from Frontend.Navigation import Routes
+
 
 def navbar_link(text: str, url: str) -> rx.Component:
     return rx.link(
@@ -35,10 +37,10 @@ def base_navbar() -> rx.Component:
                     align_items="center",
                 ),
                 rx.hstack(
-                    navbar_link("Home", "/#"),
-                    navbar_link("About", "/#"),
-                    navbar_link("Pricing", "/#"),
-                    navbar_link("Contact", "/#"),
+                    navbar_link("Home", Routes.HOME),
+                    navbar_link("About", Routes.ABOUT),
+                    # navbar_link("Pricing", "/#"),
+                    # navbar_link("Contact", "/#"),
                     justify="end",
                     spacing="5",
                 ),
@@ -69,8 +71,8 @@ def base_navbar() -> rx.Component:
                     rx.menu.content(
                         rx.menu.item("Home"),
                         rx.menu.item("About"),
-                        rx.menu.item("Pricing"),
-                        rx.menu.item("Contact"),
+                        # rx.menu.item("Pricing"),
+                        # rx.menu.item("Contact"),
                     ),
                     justify="end",
                 ),
