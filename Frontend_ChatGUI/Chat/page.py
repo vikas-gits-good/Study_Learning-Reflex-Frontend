@@ -42,6 +42,11 @@ def chat_page() -> rx.Component:
                     size="4",
                     id="chat-heading",
                 ),
+                rx.cond(
+                    ChatState.NOT_FOUND,
+                    "Not found",
+                    "Found",
+                ),
                 rx.button(
                     "Start New Chat",
                     on_click=ChatState.clean_n_start_new,

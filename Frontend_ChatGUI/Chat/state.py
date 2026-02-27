@@ -1,4 +1,5 @@
 import reflex as rx
+import sqlmodel
 from pydantic import BaseModel
 
 from Frontend_ChatGUI.models import ChatSession, ChatSessionMessageModel
@@ -20,13 +21,18 @@ class ChatMessage(BaseModel):
 
 class ChatState(rx.State):
     CHAT_SESN: ChatSession | None = None
+    NOT_FOUND: bool | None = None
     DID_SUBMT: bool = False
     MESSAGES: list[ChatMessage] = []
     CONVO_HIST: list[ChatMessage] = []
+    # INVALID_LOOKUP: bool = False
 
     @rx.var
     def user_form_submit(self) -> bool:
         return self.DID_SUBMT
+
+    def get_session_id(self) -> int:
+        return int(self.router.url.path.split("/")[-1])
 
     def create_new_chat_sesn(self):
         with rx.session() as db_sesn:
@@ -42,6 +48,24 @@ class ChatState(rx.State):
         self.MESSAGES = []
         self.CONVO_HIST = []
         yield
+
+    def get_sesn_from_db(self, sesn_id: int):
+        if not sesn_id:
+            sesn_id = self.get_session_id()
+
+        with rx.session() as db_sesn:
+            sql_stm = sqlmodel.select(ChatSession).where(ChatSession.id == sesn_id)
+            result = db_sesn.exec(sql_stm).one_or_none()
+            if not result:
+                self.NOT_FOUND = True
+            else:
+                self.NOT_FOUND = False
+            self.CHAT_SESN = result
+
+    def on_detail_load(self):
+        sesn_id = self.get_session_id()
+        if isinstance(sesn_id, int):
+            self.get_sesn_from_db(sesn_id)
 
     def on_load(self):
         if not self.CHAT_SESN:
