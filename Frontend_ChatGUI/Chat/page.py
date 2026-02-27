@@ -49,7 +49,7 @@ def chat_page() -> rx.Component:
                 ),
                 rx.button(
                     "Start New Chat",
-                    on_click=ChatState.clean_n_start_new,
+                    on_click=ChatState.create_new_n_redirect,
                 ),
             ),
             rx.box(

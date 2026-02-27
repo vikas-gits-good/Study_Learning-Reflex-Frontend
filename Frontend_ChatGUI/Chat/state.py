@@ -3,6 +3,7 @@ import sqlmodel
 from pydantic import BaseModel
 
 from Frontend_ChatGUI.models import ChatSession, ChatSessionMessageModel
+from Frontend_ChatGUI.Navigation import Routes
 
 from .ai import llm_response
 
@@ -41,6 +42,7 @@ class ChatState(rx.State):
             db_sesn.commit()
             db_sesn.refresh(obj)
             self.CHAT_SESN = obj
+            return obj
 
     def clean_n_start_new(self):
         self.clear_gui()
@@ -75,6 +77,11 @@ class ChatState(rx.State):
                     message=msg.content,
                     is_bot=False if msg.role == "user" else True,
                 )
+
+    def create_new_n_redirect(self):
+        self.clear_gui()
+        obj = self.create_new_chat_sesn()
+        return rx.redirect(f"{Routes.CHAT}/{obj.id}")
 
     def on_detail_load(self):
         sesn_id = self.get_session_id()
