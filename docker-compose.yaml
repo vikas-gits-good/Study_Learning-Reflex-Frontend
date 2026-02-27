@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: reflex-chatgui-app:latest
+    image: vikas-gits-good/Study_Learning-Reflex-Frontend:latest
     env_file:
       - .env
     ports:
@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: reflex-chatgui-app:latest
+    image: vikas-gits-good/Study_Learning-Reflex-Frontend:latest
     env_file:
       - .env
     ports:
