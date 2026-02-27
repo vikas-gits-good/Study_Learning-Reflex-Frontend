@@ -36,10 +36,16 @@ def message_box(chat_message: ChatMessage):
 def chat_page() -> rx.Component:
     return GUI.base_layout(
         rx.vstack(
-            rx.heading(
-                "Welcome to Reflex Chat!",
-                size="9",
-                id="chat-heading",
+            rx.hstack(
+                rx.heading(
+                    "Welcome to Reflex Chat!",
+                    size="4",
+                    id="chat-heading",
+                ),
+                rx.button(
+                    "Start New Chat",
+                    on_click=ChatState.clean_n_start_new,
+                ),
             ),
             rx.box(
                 rx.foreach(

@@ -28,14 +28,24 @@ class ChatState(rx.State):
     def user_form_submit(self) -> bool:
         return self.DID_SUBMT
 
+    def create_new_chat_sesn(self):
+        with rx.session() as db_sesn:
+            obj = ChatSession()
+            db_sesn.add(obj)
+            db_sesn.commit()
+            db_sesn.refresh(obj)
+            self.CHAT_SESN = obj
+
+    def clean_n_start_new(self):
+        self.CHAT_SESN = None
+        self.create_new_chat_sesn()
+        self.MESSAGES = []
+        self.CONVO_HIST = []
+        yield
+
     def on_load(self):
         if not self.CHAT_SESN:
-            with rx.session() as db_sesn:
-                obj = ChatSession()
-                db_sesn.add(obj)
-                db_sesn.commit()
-                db_sesn.refresh(obj)
-                self.CHAT_SESN = obj
+            self.create_new_chat_sesn()
 
     def handle_submit(self, form_data: dict = {}):
         user_message = form_data.get("HumanMessage", "")
