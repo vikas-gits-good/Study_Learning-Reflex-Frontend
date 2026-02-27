@@ -43,15 +43,22 @@ class ChatState(rx.State):
             self.CHAT_SESN = obj
 
     def clean_n_start_new(self):
-        self.CHAT_SESN = None
+        self.clear_gui()
         self.create_new_chat_sesn()
+        yield
+
+    def clear_gui(self):
+        self.CHAT_SESN = None
+        self.NOT_FOUND = None
+        self.DID_SUBMT = False
         self.MESSAGES = []
         self.CONVO_HIST = []
-        yield
 
     def get_sesn_from_db(self, sesn_id: int):
         if not sesn_id:
             sesn_id = self.get_session_id()
+
+        self.clear_gui()
 
         with rx.session() as db_sesn:
             sql_stm = sqlmodel.select(ChatSession).where(ChatSession.id == sesn_id)
@@ -60,7 +67,14 @@ class ChatState(rx.State):
                 self.NOT_FOUND = True
             else:
                 self.NOT_FOUND = False
+
             self.CHAT_SESN = result
+
+            for msg in result.messages:
+                self.append_message_to_gui(
+                    message=msg.content,
+                    is_bot=False if msg.role == "user" else True,
+                )
 
     def on_detail_load(self):
         sesn_id = self.get_session_id()
@@ -68,8 +82,8 @@ class ChatState(rx.State):
             self.get_sesn_from_db(sesn_id)
 
     def on_load(self):
-        if not self.CHAT_SESN:
-            self.create_new_chat_sesn()
+        self.clear_gui()
+        self.create_new_chat_sesn()
 
     def handle_submit(self, form_data: dict = {}):
         user_message = form_data.get("HumanMessage", "")
