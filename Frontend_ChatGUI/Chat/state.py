@@ -19,6 +19,7 @@ class ChatMessage(BaseModel):
 
 
 class ChatState(rx.State):
+    CHAT_SESN: ChatSession | None = None
     DID_SUBMT: bool = False
     MESSAGES: list[ChatMessage] = []
     CONVO_HIST: list[ChatMessage] = []
@@ -28,9 +29,13 @@ class ChatState(rx.State):
         return self.DID_SUBMT
 
     def on_load(self):
-        with rx.session() as sesn:
-            results = sesn.exec(ChatSession.select()).all()
-            print(results)
+        if not self.CHAT_SESN:
+            with rx.session() as db_sesn:
+                obj = ChatSession()
+                db_sesn.add(obj)
+                db_sesn.commit()
+                db_sesn.refresh(obj)
+                self.CHAT_SESN = obj
 
     def handle_submit(self, form_data: dict = {}):
         user_message = form_data.get("HumanMessage", "")
@@ -80,6 +85,7 @@ class ChatState(rx.State):
                     Read though the conversation and summarise the conversation.
                     Make sure to include important details about user query, interest and
                     preferences. Limit the summary to less that 500 words.
+                    Return only the summary and nothing else. Dont use markdown.
                 """,
             }
         ]
@@ -102,10 +108,8 @@ class ChatState(rx.State):
         message,
         is_bot: bool = False,
     ):
-        with rx.session() as sesn:
-            obj = ChatSession(title=message)
-            sesn.add(obj)
-            sesn.commit()
+        if self.CHAT_SESN:
+            print(self.CHAT_SESN.id)
 
         self.MESSAGES.append(
             ChatMessage(

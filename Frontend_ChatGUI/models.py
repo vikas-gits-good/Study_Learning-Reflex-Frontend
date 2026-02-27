@@ -16,9 +16,7 @@ def get_tz_now() -> datetime:
 
 
 class ChatSession(rx.Model, table=True):
-    messages: list["ChatSessionMessageModel"] = Relationship(
-        back_populates="chatsession"
-    )
+    messages: list["ChatSessionMessageModel"] = Relationship(back_populates="session")
     created_at: datetime = Field(
         default_factory=get_tz_now,
         sa_type=sa.DateTime(timezone=True),  # type:ignore

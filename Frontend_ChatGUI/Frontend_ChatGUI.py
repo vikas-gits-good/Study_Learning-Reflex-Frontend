@@ -7,4 +7,8 @@ from . import Chat, Navigation, Pages
 app = rx.App()
 app.add_page(Pages.home, route=Navigation.Routes.HOME)
 app.add_page(Pages.about, route=Navigation.Routes.ABOUT)
-app.add_page(Chat.chat_page, route=Navigation.Routes.CHAT)
+app.add_page(
+    Chat.chat_page,
+    route=Navigation.Routes.CHAT,
+    on_load=Chat.ChatState.on_load,  # type:ignore
+)
