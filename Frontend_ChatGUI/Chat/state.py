@@ -1,7 +1,7 @@
 import reflex as rx
 from pydantic import BaseModel
 
-from Frontend_ChatGUI.models import ChatSession
+from Frontend_ChatGUI.models import ChatSession, ChatSessionMessageModel
 
 from .ai import llm_response
 
@@ -41,7 +41,8 @@ class ChatState(rx.State):
         user_message = form_data.get("HumanMessage", "")
         if user_message:
             self.DID_SUBMT = True
-            self.append_message(user_message, False)
+            self.append_message_to_gui(user_message, False)
+            self.insert_db(content=user_message, role="user")
             yield
 
             self.sumr_convo()  # only runs if len(self.MESSAGES > 6) internally
@@ -51,7 +52,8 @@ class ChatState(rx.State):
             llm_rspn = llm_response(gpt_msgs)
 
             self.DID_SUBMT = False
-            self.append_message(llm_rspn, True)
+            self.append_message_to_gui(llm_rspn, True)
+            self.insert_db(content=llm_rspn, role="assistant")
             yield
 
     def get_ai_messages(self):
@@ -103,14 +105,24 @@ class ChatState(rx.State):
                 *self.MESSAGES[-2:],
             ]
 
-    def append_message(
+    def insert_db(self, content, role="uknown"):
+        if not self.CHAT_SESN:
+            return
+
+        with rx.session() as ms_sesn:
+            obj = ChatSessionMessageModel(
+                session_id=self.CHAT_SESN.id,
+                content=content,
+                role=role,
+            )
+            ms_sesn.add(obj)
+            ms_sesn.commit()
+
+    def append_message_to_gui(
         self,
         message,
         is_bot: bool = False,
     ):
-        if self.CHAT_SESN:
-            print(self.CHAT_SESN.id)
-
         self.MESSAGES.append(
             ChatMessage(
                 message=message,
