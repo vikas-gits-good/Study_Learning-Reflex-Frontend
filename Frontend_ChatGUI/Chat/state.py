@@ -1,7 +1,7 @@
 import reflex as rx
 from pydantic import BaseModel
 
-from Frontend_ChatGUI.models import ChatModel
+from Frontend_ChatGUI.models import ChatSession
 
 from .ai import llm_response
 
@@ -29,7 +29,7 @@ class ChatState(rx.State):
 
     def on_load(self):
         with rx.session() as sesn:
-            results = sesn.exec(ChatModel.select()).all()
+            results = sesn.exec(ChatSession.select()).all()
             print(results)
 
     def handle_submit(self, form_data: dict = {}):
@@ -103,7 +103,7 @@ class ChatState(rx.State):
         is_bot: bool = False,
     ):
         with rx.session() as sesn:
-            obj = ChatModel(title=message)
+            obj = ChatSession(title=message)
             sesn.add(obj)
             sesn.commit()
 
